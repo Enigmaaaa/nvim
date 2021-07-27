@@ -52,7 +52,7 @@ map F <Plug>Sneak_S
 
 
 Plug 'tpope/vim-surround'
-Plug 'gcmt/wildfire.vim'
+" Plug 'gcmt/wildfire.vim'
 call plug#end()
 
 " for VSCode
@@ -86,6 +86,8 @@ let mapleader = "\<space>"
 nnoremap <leader>rs :source $MYVIMRC<CR>:echo "successful"<CR>
 nnoremap <leader>ss :echo $MYVIMRC<CR>
 nnoremap <leader>sh :echo mapleader<CR>
+nnoremap <leader>sm :verbose map 
+nnoremap <leader>sr :reg<CR>
 nnoremap <leader>gh :help 
 " nnoremap <leader>es :code $sYVIMRC<CR>
 
@@ -97,6 +99,8 @@ inoremap <C-;> <Esc>
 " tab movement
 nnoremap > >>
 nnoremap < <<
+" vnoremap > >gv
+" vnoremap < <gv
 
 " ===
 " === past and yank
@@ -119,3 +123,9 @@ onoremap ] i]
 " === window tags  
 nmap E gT
 nmap R gt
+
+" ===
+" === select
+vnoremap aa <Esc>ggVG
+
+" nmap <CR> :echo 
