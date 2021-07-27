@@ -13,7 +13,7 @@
 
 
 " ===
-" setting base enviroment args
+" === setting base enviroment args
 " ===
 let $VIMCONFIG = stdpath('config')
 let $VIMDATA = stdpath('data')
@@ -35,14 +35,23 @@ endif
 
 
 call plug#begin($VIMCONFIG.'/plugged')
+function! Cond(cond, ...)
+    let opts = get(a:000, 0, {})
+    return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+" use normal easymotion when in vim mode
+Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
+" use vscode easymotion when in vscode mode
+Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
+Plug 'justinmk/vim-sneak'
+Plug 'tpope/vim-surround'
+Plug 'gcmt/wildfire.vim'
 call plug#end()
 
 " for VSCode
 if exists('g:vscode')
     " VSCode extension
     " setting cursor movement
-    nmap E gT
-    nmap R gt
     nmap <c-k> 20k
     nmap <c-j> 20j
 else
@@ -59,30 +68,31 @@ else
     set autoindent
 endif
 
+
 " ===
-" Esc at insert mode
+" Map setting
 " ===
 let mapleader = "\<space>"
-" nnoremap <leader>es :code $sYVIMRC<CR>
+
+" ===
+" some conmand 
 nnoremap <leader>rs :source $MYVIMRC<CR>:echo "successful"<CR>
 nnoremap <leader>ss :echo $MYVIMRC<CR>
 nnoremap <leader>sh :echo mapleader<CR>
 nnoremap <leader>gh :help 
+" nnoremap <leader>es :code $sYVIMRC<CR>
 
 " ===
 " Esc at insert mode
-" ===
 inoremap <C-;> <Esc>
 
 " ===
 " tab movement
-" ===
 nnoremap > >>
 nnoremap < <<
 
 " ===
 " === past and yank
-" ===
 noremap <leader>y "+y
 noremap <leader>p "+p
 noremap <leader>x V"_x
@@ -90,7 +100,6 @@ noremap x "_x
 
 " ===
 " === oprator 
-" ===
 onoremap j 1
 onoremap l $
 onoremap w iw
@@ -99,3 +108,12 @@ onoremap 0 i)
 onoremap [ i[
 onoremap ] i]
 
+" ===
+" === window tags  
+nmap E gT
+nmap R gt
+
+" ===
+" === Plug 'justinmk/vim-sneak' setting
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
