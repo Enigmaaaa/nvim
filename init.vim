@@ -52,7 +52,7 @@ map F <Plug>Sneak_S
 
 
 Plug 'tpope/vim-surround'
-" Plug 'gcmt/wildfire.vim'
+Plug 'gcmt/wildfire.vim'
 call plug#end()
 
 " for VSCode
@@ -108,6 +108,11 @@ noremap <leader>y "+y
 noremap <leader>p "+p
 noremap <leader>x V"_x
 noremap x "_x
+function! my_past
+    char_under = strcharpart(getline('.')[col('.') - 1:], 0, 1)
+    
+endfunction
+
 
 " ===
 " === oprator 
