@@ -108,10 +108,9 @@ noremap <leader>y "+y
 noremap <leader>p "+p
 noremap <leader>x V"_x
 noremap x "_x
-function! my_past
-    char_under = strcharpart(getline('.')[col('.') - 1:], 0, 1)
-    
-endfunction
+" function! my_past
+"     char_under = strcharpart(getline('.')[col('.') - 1:], 0, 1)
+" endfunction
 
 
 " ===
