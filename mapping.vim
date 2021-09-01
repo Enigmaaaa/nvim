@@ -1,10 +1,14 @@
-
 " for VSCode
 if exists('g:vscode')
     " VSCode extension
     " setting cursor movement
     nmap <c-k> 20k
     nmap <c-j> 20j
+    " nnoremap <c-f> <Cmd>call VSCodeCall('actions.find')<CR>
+    " nnoremap <c-f> <Cmd>call VSCodeNotify('actions.find')<CR>
+    " nnoremap ? <Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>
+    nnoremap / <Cmd>call VSCodeNotify('actions.find')<CR>
+    noremap <leader>sx <Cmd>echo "aaaaaaaaaaaaa"<CR>
 else
     " ordinary neovim
     set nu
@@ -69,5 +73,11 @@ nmap R gt
 " ===
 " === select
 vnoremap aa <Esc>ggVG
+" nmap <CR> :echo
+" fun! Redraw()
+"     let l = winline()
+"     let cmd = l * 2 <= winheight(0) + 1 ? l <= (&so + 1) ? 'zb' : 'zt' : 'zz'
+"     return cmd
+" endf
 
-" nmap <CR> :echo 
+" nnoremap <expr><c-l> Redraw()
