@@ -1,14 +1,22 @@
+let mapleader = "\<space>"
+
+
 " for VSCode
 if exists('g:vscode')
     " VSCode extension
     " setting cursor movement
-    nmap <c-k> 20k
-    nmap <c-j> 20j
+    map <c-k> 20k
+    map <c-j> 20j
     " nnoremap <c-f> <Cmd>call VSCodeCall('actions.find')<CR>
     " nnoremap <c-f> <Cmd>call VSCodeNotify('actions.find')<CR>
     " nnoremap ? <Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>
+    
+    " ===
+    " search setting
     nnoremap / <Cmd>call VSCodeNotify('actions.find')<CR>
-    noremap <leader>sx <Cmd>echo "aaaaaaaaaaaaa"<CR>
+    nnoremap ? /
+    nnoremap <CR> :echo 
+    nnoremap == <Cmd>call VSCodeNotify('editor.action.formatDocument')<CR>
 else
     " ordinary neovim
     set nu
@@ -21,15 +29,17 @@ endif
 " ===
 " Map setting
 " ===
-let mapleader = "\<space>"
 
 " ===
 " some conmand 
+    function s:resource()
+
+endfunction
 nnoremap <leader>rs :source $MYVIMRC<CR>:echo "successful"<CR>
-nnoremap <leader>ss :echo $MYVIMRC<CR>
-nnoremap <leader>sh :echo mapleader<CR>
+nnoremap <leader>ss <Cmd>echo $MYVIMRC<CR>
+nnoremap <leader>sh <Cmd>echo mapleader<CR>
 nnoremap <leader>sm :verbose map 
-nnoremap <leader>sr :reg<CR>
+nnoremap <leader>sr <Cmd>reg<CR>
 nnoremap <leader>gh :help 
 " nnoremap <leader>es :code $sYVIMRC<CR>
 
@@ -41,6 +51,9 @@ inoremap <C-;> <Esc>
 " tab movement
 nnoremap > >>
 nnoremap < <<
+vnoremap > >gv
+vnoremap < <gv
+
 " vnoremap > >gv
 " vnoremap < <gv
 
@@ -65,6 +78,14 @@ onoremap 0 i)
 onoremap [ i[
 onoremap ] i]
 
+vnoremap w iw
+vnoremap 9 i(
+vnoremap 0 i)
+vnoremap [ i[
+vnoremap ] i]
+vnoremap { i{
+vnoremap } i}
+
 " ===
 " === window tags  
 nmap E gT
@@ -73,6 +94,18 @@ nmap R gt
 " ===
 " === select
 vnoremap aa <Esc>ggVG
+
+" ===
+" === find
+" === in plugin.vim :
+nmap f <Plug>Sneak_s
+nmap F <Plug>Sneak_S
+nnoremap t f
+nnoremap T F
+
+
+
+
 " nmap <CR> :echo
 " fun! Redraw()
 "     let l = winline()

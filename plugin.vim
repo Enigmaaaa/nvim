@@ -19,8 +19,6 @@ Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymot
 
 " === Plug 'justinmk/vim-sneak' setting
 Plug 'justinmk/vim-sneak'
-map f <Plug>Sneak_s
-map F <Plug>Sneak_S
 
 
 Plug 'tpope/vim-surround'
