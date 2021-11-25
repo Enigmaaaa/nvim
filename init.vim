@@ -25,8 +25,8 @@ endif
 let s:config_files = [
         \ $VIMCONFIG.'/option.vim',
         \ $VIMCONFIG.'/mapping.vim',
-        \ $VIMCONFIG.'/plugin.vim',
         \]
+        " \ $VIMCONFIG.'/plugin.vim',
         " \ $VIMCONFIG.'/command.vim',
 
 function s:load_config()
@@ -36,6 +36,30 @@ function s:load_config()
 endfunction
 
 call s:load_config()
+
+if has('nvim') 
+    lua require('nvim_init')
+endif
+
+" if has('nvim') 
+"     lua require('nvim_init')
+" else
+"     let s:config_files = [
+"             \ $VIMCONFIG.'/option.vim',
+"             \ $VIMCONFIG.'/mapping.vim',
+"             \ $VIMCONFIG.'/plugin.vim',
+"             \]
+"             " \ $VIMCONFIG.'/command.vim',
+
+"     function s:load_config()
+"         for l:filename in s:config_files
+"             execute 'source ' . expand(l:filename)
+"         endfor
+"     endfunction
+
+"     call s:load_config()
+" endif
+
 
 " ===
 " === Auto load for first time uses

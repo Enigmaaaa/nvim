@@ -1,28 +1,34 @@
 let mapleader = "\<space>"
 
 
-" for VSCode
 if exists('g:vscode')
+    " for VSCode
     " VSCode extension
     " setting cursor movement
-    map <c-k> 20k
-    map <c-j> 20j
-    " nnoremap <c-f> <Cmd>call VSCodeCall('actions.find')<CR>
-    " nnoremap <c-f> <Cmd>call VSCodeNotify('actions.find')<CR>
-    " nnoremap ? <Cmd>call VSCodeNotify('workbench.action.findInFiles', { 'query': expand('<cword>')})<CR>
+    " somen change is writen in VScode Mapping
+    " {
+    "   "key": "ctrl+k",
+    "   "command": "vscode-neovim.ctrl-u",
+    "   "when": "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'"
+    " }
+    " {
+          "key": "ctrl+j",
+          "command": "vscode-neovim.ctrl-d",
+          "when": "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'"
+    " }
+    vnoremap <C-j> 20j
+    vnoremap <C-k> 20k
+
     
     " ===
     " search setting
     nnoremap / <Cmd>call VSCodeNotify('actions.find')<CR>
     nnoremap ? /
-    nnoremap <CR> :echo 
     nnoremap == <Cmd>call VSCodeNotify('editor.action.formatDocument')<CR>
 else
     " ordinary neovim
-    set nu
-    set cul
-    noremap <C-j> <C-u>
-    noremap <C-k> <C-d>
+    noremap <C-j> <C-d>
+    noremap <C-k> <C-u>
 endif
 
 
@@ -32,9 +38,9 @@ endif
 
 " ===
 " some conmand 
-    function s:resource()
+" function s:resource()
 
-endfunction
+" endfunction
 nnoremap <leader>rs :source $MYVIMRC<CR>:echo "successful"<CR>
 nnoremap <leader>ss <Cmd>echo $MYVIMRC<CR>
 nnoremap <leader>sh <Cmd>echo mapleader<CR>
@@ -63,6 +69,9 @@ noremap <leader>y "+y
 noremap <leader>p "+p
 noremap <leader>x V"_x
 noremap x "_x
+nmap daa vaad
+nmap yaa vaay
+nmap <leader>yaa vaa<leader>y
 " function! my_past
 "     char_under = strcharpart(getline('.')[col('.') - 1:], 0, 1)
 " endfunction
@@ -77,6 +86,7 @@ onoremap 9 i(
 onoremap 0 i)
 onoremap [ i[
 onoremap ] i]
+
 
 vnoremap w iw
 vnoremap 9 i(
@@ -94,6 +104,8 @@ nmap R gt
 " ===
 " === select
 vnoremap aa <Esc>ggVG
+map <CR> <Plug>(expand_region_expand)
+map <BS> <Plug>(expand_region_shrink)
 
 " ===
 " === find

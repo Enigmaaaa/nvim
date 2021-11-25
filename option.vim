@@ -4,6 +4,8 @@ if exists('g:vscode')
     " setting cursor movement
 else
     " ordinary neovim
+    set nu
+    set cul
     set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
     set termencoding=utf-8
     set encoding=utf-8
