@@ -57,7 +57,7 @@ end
 time([[Luarocks path setup]], false)
 time([[try_loadstring definition]], true)
 local function try_loadstring(s, component, name)
-  local success, result = pcall(loadstring(s))
+  local success, result = pcall(loadstring(s), name, _G.packer_plugins[name])
   if not success then
     vim.schedule(function()
       vim.api.nvim_notify('packer.nvim: Error running ' .. component .. ' for ' .. name .. ': ' .. result, vim.log.levels.ERROR, {})
@@ -75,27 +75,27 @@ _G.packer_plugins = {
     url = "https://github.com/wbthomason/packer.nvim"
   },
   ["vim-expand-region"] = {
-    config = { "\27LJ\2\nl\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\0\t\aie\3\0\aip\3\0\ail\3\0\aiB\3\1\aib\3\1\ai]\3\1\ai'\3\0\ai\"\3\0\aiw\3\0\31expand_region_text_objects\6g\bvim\0" },
+    config = { "\27LJ\2\nl\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\0\t\ai]\3\1\ai'\3\0\ai\"\3\0\aiw\3\0\aie\3\0\aip\3\0\ail\3\0\aiB\3\1\aib\3\1\31expand_region_text_objects\6g\bvim\0" },
     loaded = true,
     path = "C:\\Users\\Enigmaaa\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-expand-region",
     url = "https://github.com/terryma/vim-expand-region"
+  },
+  ["vim-sandwich"] = {
+    loaded = true,
+    path = "C:\\Users\\Enigmaaa\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-sandwich",
+    url = "https://github.com/machakann/vim-sandwich"
   },
   ["vim-sneak"] = {
     loaded = true,
     path = "C:\\Users\\Enigmaaa\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-sneak",
     url = "https://github.com/justinmk/vim-sneak"
-  },
-  ["vim-surround"] = {
-    loaded = true,
-    path = "C:\\Users\\Enigmaaa\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-surround",
-    url = "https://github.com/tpope/vim-surround"
   }
 }
 
 time([[Defining packer_plugins]], false)
 -- Config for: vim-expand-region
 time([[Config for vim-expand-region]], true)
-try_loadstring("\27LJ\2\nl\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\0\t\aie\3\0\aip\3\0\ail\3\0\aiB\3\1\aib\3\1\ai]\3\1\ai'\3\0\ai\"\3\0\aiw\3\0\31expand_region_text_objects\6g\bvim\0", "config", "vim-expand-region")
+try_loadstring("\27LJ\2\nl\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\0\t\ai]\3\1\ai'\3\0\ai\"\3\0\aiw\3\0\aie\3\0\aip\3\0\ail\3\0\aiB\3\1\aib\3\1\31expand_region_text_objects\6g\bvim\0", "config", "vim-expand-region")
 time([[Config for vim-expand-region]], false)
 if should_profile then save_profiles() end
 

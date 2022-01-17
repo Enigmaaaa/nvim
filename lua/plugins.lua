@@ -35,7 +35,8 @@ return require('packer').startup(function (use)
         --     api.nvim_set_keymap('n', 'T', 'F', {noremap = true})
         -- end
     }
-    use 'tpope/vim-surround'
+    -- use 'tpope/vim-surround'
+    use 'machakann/vim-sandwich'
     use {
         'terryma/vim-expand-region',
         config = function ()
