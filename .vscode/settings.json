@@ -3,6 +3,8 @@
         "vim",
         "load_in_vscode",
         "fn",
-        "api"
+        "api",
+        "load_in_nvim",
+        "printt"
     ]
 }

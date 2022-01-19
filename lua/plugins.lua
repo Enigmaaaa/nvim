@@ -40,9 +40,9 @@ return require('packer').startup(function (use)
     use {
         'terryma/vim-expand-region',
         config = function ()
-             vim.g.expand_region_text_objects = {['iw'] = 0, ['i"'] = 0, ["i'"] = 0, ['i]'] = 1, ['ib'] = 1, ['iB'] = 1, ['il'] = 0, ['ip'] = 0, ['ie'] = 0,}
-                                
-    end}
+            vim.g.expand_region_text_objects = {['iw'] = 0, ['i"'] = 0, ["i'"] = 0, ['i]'] = 1, ['ib'] = 1, ['iB'] = 1, ['il'] = 0, ['ip'] = 0, ['ie'] = 0,}
+        end
+    }
 -- map <CR> <Plug>(expand_region_expand)
 -- map <BS> <Plug>(expand_region_shrink)
     -- use 'gcmt/wildfire.vim'
