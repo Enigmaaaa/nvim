@@ -27,7 +27,6 @@ end
 -- end
 require('core.options')
 
-vim.cmd [[packadd packer.nvim]]
 require 'plugins'
 
 require 'keymap'
