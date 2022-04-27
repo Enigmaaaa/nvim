@@ -13,3 +13,5 @@ else
     set shiftwidth=4
     set autoindent
 endif
+
+set shada="NONE"
