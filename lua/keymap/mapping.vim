@@ -16,8 +16,6 @@ if exists('g:vscode')
           "command": "vscode-neovim.ctrl-d",
           "when": "editorTextFocus && neovim.ctrlKeysNormal && neovim.init && neovim.mode != 'insert'"
     " }
-    vnoremap <C-j> 20j
-    vnoremap <C-k> 20k
 
     
     " ===
@@ -27,8 +25,6 @@ if exists('g:vscode')
     nnoremap == <Cmd>call VSCodeNotify('editor.action.formatDocument')<CR>
 else
     " ordinary neovim
-    noremap <C-j> <C-d>
-    noremap <C-k> <C-u>
 endif
 
 
@@ -39,6 +35,8 @@ endif
 " ===
 " some conmand 
 " function s:resource()
+noremap <C-j> <C-d>
+noremap <C-k> <C-u>
 
 " endfunction
 nnoremap <leader>rs :source $MYVIMRC<CR>:echo "successful"<CR>

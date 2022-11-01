@@ -1,6 +1,6 @@
 local api = vim.api
 vim.cmd [[packadd packer.nvim]]
-local packer = require 'packer'
+-- local packer = require 'packer'
 
 -- -- You must run this or `PackerSync` whenever you make changes to your plugin configuration
 -- -- Regenerate compiled loader file

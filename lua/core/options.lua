@@ -30,7 +30,7 @@ local function loading_in_nvim()
         tabstop = 4,
         shiftwidth = 4,
         -- some new
-        history = 1000
+        history = 1000,
     }
     load_options(global_local)
 end
