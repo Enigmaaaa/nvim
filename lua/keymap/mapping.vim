@@ -77,7 +77,7 @@ nmap <leader>yaa vaa<leader>y
 
 " ===
 " === oprator 
-onoremap j ^
+onoremap h ^
 onoremap l $
 onoremap w iw
 onoremap 9 i(

@@ -1,6 +1,19 @@
 local global = require('core.global')
-local api = vim.api
 vim.cmd [[packadd packer.nvim]]
+
+local ensure_packer = function()
+    local fn = vim.fn
+    local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+    if fn.empty(fn.glob(install_path)) > 0 then
+        fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+        vim.cmd [[packadd packer.nvim]]
+        return true
+    end
+    return false
+end
+
+local packer_bootstrap = ensure_packer()
+
 -- local packer = require 'packer'
 
 -- -- You must run this or `PackerSync` whenever you make changes to your plugin configuration
@@ -64,6 +77,9 @@ return require('packer').startup(function(use)
     -- map <CR> <Plug>(expand_region_expand)
     -- map <BS> <Plug>(expand_region_shrink)
     -- use 'gcmt/wildfire.vim'
+    if packer_bootstrap then
+        require('packer').sync()
+    end
 end)
 -- [[
 
