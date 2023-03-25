@@ -22,9 +22,8 @@ if fn.empty(fn.glob(packer_install_dir)) > 0 then
     api.nvim_command(install_cmd)
 end
 
--- if not vim.g.vscode then
---     require("core")
--- end
+require("nvim_init")
+
 require('core.options')
 
 require 'plugins'

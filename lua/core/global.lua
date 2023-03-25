@@ -26,7 +26,7 @@ global:load_variables()
 
 ---@param ... function | table[ function]
 ---@return nil
-function load_in_vscode(...)
+function global:load_in_vscode(...)
     local funcs = {...}
     if vim.g.vscode then
         for key, value in pairs(funcs) do
@@ -37,7 +37,7 @@ end
 
 ---@param ... function | table[ function]
 ---@return nil
-function load_in_nvim(...)
+function global:load_in_nvim(...)
     local funcs = {...}
     if not vim.g.vscode then
         for key, value in pairs(funcs) do
@@ -48,7 +48,7 @@ end
 
 ---@param table table
 ---@return nil
-function printt(table)
+function global:printt(table)
     for key, value in pairs(table) do
         print(("%s --> %s"):format(key, value))
     end

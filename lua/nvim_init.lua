@@ -22,24 +22,6 @@ if fn.empty(fn.glob(packer_install_dir)) > 0 then
     api.nvim_command(install_cmd)
 end
 
-load_in_vscode = function(...)
-    local funcs = {...}
-    if vim.g.vscode then
-        for key, value in pairs(funcs) do
-            value()
-        end
-    end
-end
-
-load_in_nvim = function(...)
-    local funcs = {...}
-    if not vim.g.vscode then
-        for key, value in pairs(funcs) do
-            value()
-        end
-    end
-end
-
 printt = function (table)
     for key, value in pairs(table) do
         print(("%s --> %s"):format(key, value))

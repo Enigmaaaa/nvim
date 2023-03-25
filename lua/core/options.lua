@@ -1,4 +1,3 @@
-require("nvim_init")
 local global = require("core.global")
 
 local function bind_option(options)
@@ -35,4 +34,4 @@ local function loading_in_nvim()
     load_options(global_local)
 end
 
-load_in_nvim(loading_in_nvim)
+global:load_in_nvim(loading_in_nvim)

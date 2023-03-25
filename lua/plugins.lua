@@ -1,3 +1,4 @@
+local global = require('core.global')
 local api = vim.api
 vim.cmd [[packadd packer.nvim]]
 -- local packer = require 'packer'
@@ -21,7 +22,7 @@ vim.cmd [[packadd packer.nvim]]
 -- -- Loads opt plugin immediately
 -- :PackerLoad completion-nvim ale
 
-return require('packer').startup(function (use)
+return require('packer').startup(function(use)
     -- Plugins management
     use 'wbthomason/packer.nvim'
 
@@ -37,14 +38,31 @@ return require('packer').startup(function (use)
     }
     -- use 'tpope/vim-surround'
     use 'machakann/vim-sandwich'
-    use {
-        'terryma/vim-expand-region',
-        config = function ()
-            vim.g.expand_region_text_objects = {['iw'] = 0, ['i"'] = 0, ["i'"] = 0, ['i]'] = 1, ['ib'] = 1, ['iB'] = 1, ['il'] = 0, ['ip'] = 0, ['ie'] = 0,}
+    use { 'terryma/vim-expand-region',
+        config = function()
+            vim.g.expand_region_text_objects = {
+                ['iw'] = 0,
+                ['i"'] = 0,
+                ["i'"] = 0,
+                ['i]'] = 1,
+                ['ib'] = 1,
+                ['iB'] = 1,
+                ['il'] = 0,
+                ['ip'] = 0,
+                ['ie'] = 0,
+            }
         end
     }
--- map <CR> <Plug>(expand_region_expand)
--- map <BS> <Plug>(expand_region_shrink)
+    use { "ybian/smartim",
+        event = { "InsertEnter" },
+        config = function()
+            -- default IME mode
+            vim.g.smartim_default = "com.apple.keylayout.ABC"
+        end,
+        cond = global.is_mac
+    }
+    -- map <CR> <Plug>(expand_region_expand)
+    -- map <BS> <Plug>(expand_region_shrink)
     -- use 'gcmt/wildfire.vim'
 end)
 -- [[
