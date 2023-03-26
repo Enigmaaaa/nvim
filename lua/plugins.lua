@@ -74,6 +74,10 @@ return require('packer').startup(function(use)
         end,
         cond = global.is_mac
     }
+
+    use { "Neur1n/neuims",
+        cond = global.is_windows
+    }
     -- map <CR> <Plug>(expand_region_expand)
     -- map <BS> <Plug>(expand_region_shrink)
     -- use 'gcmt/wildfire.vim'
