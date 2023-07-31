@@ -35,8 +35,8 @@ endif
 " ===
 " some conmand 
 " function s:resource()
-noremap <C-j> <C-d>
-noremap <C-k> <C-u>
+noremap <C-j> 20j
+noremap <C-k> 20k
 
 " endfunction
 nnoremap <leader>rs :source $MYVIMRC<CR>:echo "successful"<CR>
