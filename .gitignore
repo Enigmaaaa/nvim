@@ -1,3 +1,4 @@
 .vscode/
-plugin/
+/plugin/
 Plugged/
+.Ds_Store
