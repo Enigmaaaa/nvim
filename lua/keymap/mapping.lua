@@ -11,6 +11,7 @@ return {
     ['n|>'] = map_keys('>>'):with_noremap():with_silent(),
     ['n|<'] = map_keys('<<'):with_noremap():with_silent(),
     ['v|>'] = map_keys('>gv'):with_noremap():with_silent(),
+    ['v|<'] = map_keys('<gv'):with_noremap():with_silent(),
 
     ['E'] = map_keys('gT'):with_noremap():with_silent(),
 }

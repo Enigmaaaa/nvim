@@ -1,10 +1,10 @@
 local global = require('core.global')
 local icons = {
-    kind = require("icons").get("kind"),
-    documents = require("icons").get("documents"),
-    ui = require("icons").get("ui"),
-    ui_sep = require("icons").get("ui", true),
-    misc = require("icons").get("misc"),
+    kind = require("plugin.icons").get("kind"),
+    documents = require("plugin.icons").get("documents"),
+    ui = require("plugin.icons").get("ui"),
+    ui_sep = require("plugin.icons").get("ui", true),
+    misc = require("plugin.icons").get("misc"),
 }
 
 local lazypath = global.data_dir .. "/lazy/lazy.nvim"
@@ -68,9 +68,9 @@ local lazy_setting = {
 
 local plugins_tables = {
     require('plugin.util'),
-    require('plugin.plugins'),
+    require('plugin.editor'),
 }
 
-require('lazy').setup(load_plugins(plugins_tables), lazy_setting)
 
 vim.opt.rtp:prepend(lazypath)
+require('lazy').setup(load_plugins(plugins_tables), lazy_setting)

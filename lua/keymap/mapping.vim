@@ -102,16 +102,7 @@ nmap R gt
 " ===
 " === select
 vnoremap aa <Esc>ggVG
-map <CR> <Plug>(expand_region_expand)
-map <BS> <Plug>(expand_region_shrink)
 
-" ===
-" === find
-" === in plugin.vim :
-nmap f <Plug>Sneak_s
-nmap F <Plug>Sneak_S
-nnoremap t f
-nnoremap T F
 
 
 

@@ -8,4 +8,4 @@ require 'core.options'
 
 require 'keymap'
 
-require 'plugins'
+require 'plugin'
