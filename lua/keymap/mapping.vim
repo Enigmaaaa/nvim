@@ -55,6 +55,8 @@ inoremap <C-;> <Esc>
 " tab movement
 nnoremap > >>
 nnoremap < <<
+nnoremap <leader>> >>
+nnoremap <leader>< <<
 vnoremap > >gv
 vnoremap < <gv
 

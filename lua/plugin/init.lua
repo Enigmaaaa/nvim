@@ -66,11 +66,15 @@ local lazy_setting = {
     },
 }
 
-local plugins_tables = {
-    require('plugin.util'),
-    require('plugin.editor'),
-}
+PluginsTable = load_plugins({
+    require('plugin.tools'),
+    not global.is_vscode and require('plugin.editor') or {},
+    not global.is_vscode and require('plugin.telescope') or {},
+    require('plugin.coding'),
+    require('plugin.treesitter'),
+    not global.is_vscode and require('plugin.ui') or {},
+})
 
 
 vim.opt.rtp:prepend(lazypath)
-require('lazy').setup(load_plugins(plugins_tables), lazy_setting)
+require('lazy').setup(PluginsTable, lazy_setting)
