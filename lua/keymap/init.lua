@@ -1,6 +1,7 @@
 local global = require('core.global')
 
-vim.g.mapleader = " "
+-- vim.g.mapleader = " "
+-- locatied at core.init.lua
 
 require("keymap.map_all")
 if global.is_vscode then

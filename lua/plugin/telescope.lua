@@ -1,69 +1,16 @@
--- returns the root directory based on:
--- * lsp workspace folders
--- * lsp root_dir
--- * root pattern of filename of the current buffer
--- * root pattern of cwd
----@return string
-local function get_root()
-    ---@type string?
-    local path = vim.api.nvim_buf_get_name(0)
-    path = path ~= "" and vim.loop.fs_realpath(path) or nil
-    ---@type string[]
-    local roots = {}
-    if path then
-        for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
-            local workspace = client.config.workspace_folders
-            local paths = workspace and vim.tbl_map(function(ws)
-                return vim.uri_to_fname(ws.uri)
-            end, workspace) or client.config.root_dir and { client.config.root_dir } or {}
-            for _, p in ipairs(paths) do
-                local r = vim.loop.fs_realpath(p)
-                if path:find(r, 1, true) then
-                    roots[#roots + 1] = r
-                end
-            end
-        end
-    end
-    table.sort(roots, function(a, b)
-        return #a > #b
-    end)
-    ---@type string?
-    local root = roots[1]
-    if not root then
-        path = path and vim.fs.dirname(path) or vim.loop.cwd()
-        ---@type string?
-        root = vim.fs.find({ ".git", "lua" }, { path = path, upward = true })[1]
-        root = root and vim.fs.dirname(root) or vim.loop.cwd()
-    end
-    ---@cast root string
-    return root
-end
+local utils = require("plugin.utils")
 
-local function on_load(name, fn)
-    local Config = require("lazy.core.config")
-    if Config.plugins[name] and Config.plugins[name]._.loaded then
-        vim.schedule(function()
-            fn(name)
-        end)
-    else
-        vim.api.nvim_create_autocmd("User", {
-            pattern = "LazyLoad",
-            callback = function(event)
-                if event.data == name then
-                    fn(name)
-                    return true
-                end
-            end,
-        })
-    end
-end
+local root = utils.get_root()
 
+-- this will return a function that calls telescope.
+-- cwd will default to lazyvim.util.get_root
+-- for `files`, git_files or find_files will be chosen depending on .git
 local function _telescope(builtin, opts)
     local params = { builtin = builtin, opts = opts }
     return function()
         builtin = params.builtin
         opts = params.opts
-        opts = vim.tbl_deep_extend("force", { cwd = get_root() }, opts or {})
+        opts = vim.tbl_deep_extend("force", { cwd = root }, opts or {})
         if builtin == "files" then
             if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
                 opts.show_untracked = true
@@ -96,13 +43,13 @@ return {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
         dependencies = {
-            'nvim-lua/plenary.nvim',
+            { "nvim-lua/plenary.nvim", lazy = true },
             {
                 "nvim-telescope/telescope-fzf-native.nvim",
                 build = "make",
                 enabled = vim.fn.executable("make") == 1,
                 config = function()
-                    on_load("telescope.nvim", function()
+                    utils.on_load("telescope.nvim", function()
                         require("telescope").load_extension("fzf")
                     end)
                 end,
@@ -261,5 +208,36 @@ return {
                 },
             },
         },
+    },
+    -- Flash Telescope config
+    {
+        "nvim-telescope/telescope.nvim",
+        optional = true,
+        opts = function(_, opts)
+            if not utils.has("flash.nvim") then
+                return
+            end
+            local function flash(prompt_bufnr)
+                require("flash").jump({
+                    pattern = "^",
+                    label = { after = { 0, 0 } },
+                    search = {
+                        mode = "search",
+                        exclude = {
+                            function(win)
+                                return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "TelescopeResults"
+                            end,
+                        },
+                    },
+                    action = function(match)
+                        local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+                        picker:set_selection(match.pos[1] - 1)
+                    end,
+                })
+            end
+            opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
+                mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } },
+            })
+        end,
     },
 }

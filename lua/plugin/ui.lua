@@ -99,6 +99,13 @@ return {
         keys = {
             { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",            desc = "Toggle pin" },
             { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete non-pinned buffers" },
+            { "<leader>bo", "<Cmd>BufferLineCloseOthers<CR>",          desc = "Delete other buffers" },
+            { "<leader>br", "<Cmd>BufferLineCloseRight<CR>",           desc = "Delete buffers to the right" },
+            { "<leader>bl", "<Cmd>BufferLineCloseLeft<CR>",            desc = "Delete buffers to the left" },
+            { "<S-h>",      "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev buffer" },
+            { "<S-l>",      "<cmd>BufferLineCycleNext<cr>",            desc = "Next buffer" },
+            { "[b",         "<cmd>BufferLineCyclePrev<cr>",            desc = "Prev buffer" },
+            { "]b",         "<cmd>BufferLineCycleNext<cr>",            desc = "Next buffer" },
         },
         opts = {
             options = {
@@ -215,34 +222,38 @@ return {
     -- indent guides for Neovim
     {
         "lukas-reineke/indent-blankline.nvim",
-        event = { "BufReadPost", "BufNewFile" },
+        event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         opts = {
-            -- char = "▏",
-            char = "│",
-            filetype_exclude = {
-                "help",
-                "alpha",
-                "dashboard",
-                "neo-tree",
-                "Trouble",
-                "lazy",
-                "mason",
-                "notify",
-                "toggleterm",
-                "lazyterm",
+            indent = {
+                char = "│",
+                tab_char = "│",
             },
-            show_trailing_blankline_indent = false,
-            show_current_context = false,
+            scope = { enabled = false },
+            exclude = {
+                filetypes = {
+                    "help",
+                    "alpha",
+                    "dashboard",
+                    "neo-tree",
+                    "Trouble",
+                    "trouble",
+                    "lazy",
+                    "mason",
+                    "notify",
+                    "toggleterm",
+                    "lazyterm",
+                },
+            },
         },
+        main = "ibl",
     },
-
     -- Active indent guide and indent text objects. When you're browsing
     -- code, this highlights the current level of indentation, and animates
     -- the highlighting.
     {
         "echasnovski/mini.indentscope",
         version = false, -- wait till new 0.7.0 release to put it back on semver
-        event = { "BufReadPre", "BufNewFile" },
+        event = { "BufReadPost", "BufNewFile", "BufWritePre" },
         opts = {
             -- symbol = "▏",
             symbol = "│",
@@ -256,6 +267,7 @@ return {
                     "dashboard",
                     "neo-tree",
                     "Trouble",
+                    "trouble",
                     "lazy",
                     "mason",
                     "notify",
@@ -365,69 +377,6 @@ return {
         },
     },
 
-    -- Dashboard. This runs when neovim starts, and is what displays
-    -- the "LAZYVIM" banner.
-    {
-        "goolord/alpha-nvim",
-        event = "VimEnter",
-        opts = function()
-            local dashboard = require("alpha.themes.dashboard")
-            local logo = [[
-                ███████╗ ███╗   ██╗ ██╗  ██████╗  ███╗   ███╗  █████╗
-                ██╔════╝ ████╗  ██║ ██║ ██╔════╝  ████╗ ████║ ██╔══██╗
-                █████╗   ██╔██╗ ██║ ██║ ██║  ███╗ ██╔████╔██║ ███████║
-                ██╔══╝   ██║╚██╗██║ ██║ ██║   ██║ ██║╚██╔╝██║ ██╔══██║
-                ███████╗ ██║ ╚████║ ██║ ╚██████╔╝ ██║ ╚═╝ ██║ ██║  ██║
-                ╚══════╝ ╚═╝  ╚═══╝ ╚═╝  ╚═════╝  ╚═╝     ╚═╝ ╚═╝  ╚═╝
-]]
-
-            dashboard.section.header.val = vim.split(logo, "\n")
-            dashboard.section.buttons.val = {
-                dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-                dashboard.button("n", " " .. " New file", ":ene <BAR> startinsert <CR>"),
-                dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
-                dashboard.button("g", " " .. " Find text", ":Telescope live_grep <CR>"),
-                dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
-                dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
-                dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
-                dashboard.button("q", " " .. " Quit", ":qa<CR>"),
-            }
-            for _, button in ipairs(dashboard.section.buttons.val) do
-                button.opts.hl = "AlphaButtons"
-                button.opts.hl_shortcut = "AlphaShortcut"
-            end
-            dashboard.section.header.opts.hl = "AlphaHeader"
-            dashboard.section.buttons.opts.hl = "AlphaButtons"
-            dashboard.section.footer.opts.hl = "AlphaFooter"
-            dashboard.opts.layout[1].val = 8
-            return dashboard
-        end,
-        config = function(_, dashboard)
-            -- close Lazy and re-open when the dashboard is ready
-            if vim.o.filetype == "lazy" then
-                vim.cmd.close()
-                vim.api.nvim_create_autocmd("User", {
-                    pattern = "AlphaReady",
-                    callback = function()
-                        require("lazy").show()
-                    end,
-                })
-            end
-
-            require("alpha").setup(dashboard.opts)
-
-            vim.api.nvim_create_autocmd("User", {
-                pattern = "LazyVimStarted",
-                callback = function()
-                    local stats = require("lazy").stats()
-                    local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-                    dashboard.section.footer.val = "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms"
-                    pcall(vim.cmd.AlphaRedraw)
-                end,
-            })
-        end,
-    },
-
     -- lsp symbol navigation for lualine. This shows where
     -- in the code structure you are - within functions, classes,
     -- etc - in the statusline.
@@ -457,5 +406,80 @@ return {
 
     -- ui components
     { "MunifTanjim/nui.nvim",        lazy = true },
+
+    -- Dashboard. This runs when neovim starts, and is what displays
+    {
+        "nvimdev/dashboard-nvim",
+        event = "VimEnter",
+        opts = function()
+            local logo = [[
+        ███████╗ ███╗   ██╗  ██╗   ██████╗  ███╗   ███╗  █████╗
+        ██╔════╝ ████╗  ██║  ██║  ██╔════╝  ████╗ ████║ ██╔══██╗
+        █████╗   ██╔██╗ ██║  ██║  ██║  ███╗ ██╔████╔██║ ███████║
+        ██╔══╝   ██║╚██╗██║  ██║  ██║   ██║ ██║╚██╔╝██║ ██╔══██║
+        ███████╗ ██║ ╚████║  ██║  ╚██████╔╝ ██║ ╚═╝ ██║ ██║  ██║
+        ╚══════╝ ╚═╝  ╚═══╝  ╚═╝   ╚═════╝  ╚═╝     ╚═╝ ╚═╝  ╚═╝
+      ]]
+
+            logo = string.rep("\n", 8) .. logo .. "\n\n"
+
+            local opts = {
+                theme = "doom",
+                hide = {
+                    -- this is taken care of by lualine
+                    -- enabling this messes up the actual laststatus setting after loading a file
+                    statusline = false,
+                },
+                config = {
+                    header = vim.split(logo, "\n"),
+                    -- stylua: ignore
+                    center = {
+                        { action = "Telescope find_files", desc = " Find file", icon = " ", key = "f" },
+                        { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
+                        { action = "Telescope oldfiles", desc = " Recent files", icon = " ", key = "r" },
+                        { action = "Telescope live_grep", desc = " Find text", icon = " ", key = "g" },
+                        {
+                            action = [[require("telescope.builtin").find_files { cwd = vim.fn.stdpath("config") }]],
+                            desc = " Config",
+                            icon = " ",
+                            key = "c"
+                        },
+                        {
+                            action = 'lua require("persistence").load()',
+                            desc = " Restore Session",
+                            icon = " ",
+                            key = "s"
+                        },
+                        { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
+                        { action = "qa", desc = " Quit", icon = " ", key = "q" },
+                    },
+                    footer = function()
+                        local stats = require("lazy").stats()
+                        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+                        return { "⚡ Neovim loaded " ..
+                        stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+                    end,
+                },
+            }
+
+            for _, button in ipairs(opts.config.center) do
+                button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+                button.key_format = "  %s"
+            end
+
+            -- close Lazy and re-open when the dashboard is ready
+            if vim.o.filetype == "lazy" then
+                vim.cmd.close()
+                vim.api.nvim_create_autocmd("User", {
+                    pattern = "DashboardLoaded",
+                    callback = function()
+                        require("lazy").show()
+                    end,
+                })
+            end
+
+            return opts
+        end,
+    },
 }
 -- return not global.is_vscode and plugins or {}

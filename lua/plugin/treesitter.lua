@@ -25,10 +25,10 @@ return {
     },
     cmd = { "TSUpdateSync" },
     keys = {
-      { "<cr>", desc = "Increment selection" },
+      { "<cr>",   desc = "Increment selection" },
       { "<s-cr>", desc = "Scope selection" },
       -- { "<cr>", desc = "Node selection" },
-      { "<bs>", desc = "Decrement selection", mode = "x" },
+      { "<bs>",   desc = "Decrement selection", mode = "x" },
     },
     ---@type TSConfig
     opts = {

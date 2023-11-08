@@ -1,5 +1,8 @@
 local M = {}
 
+-- Wrapper around vim.keymap.set that will
+-- not create a keymap if a lazy key handler exists.
+-- It will also set `silent` to true by default.
 ---comment
 ---@param mode string|table
 ---@param lhs string
@@ -8,8 +11,16 @@ local M = {}
 function M.map(mode, lhs, rhs, opts)
     local keys = require("lazy.core.handler").handlers.keys
     ---@cast keys LazyKeysHandler
+    local modes = type(mode) == "string" and { mode } or mode
     -- do not create the keymap if a lazy keys handler exists
-    if not keys.active[keys.parse({ lhs, mode = mode }).id] then
+
+    ---@param m string
+    modes = vim.tbl_filter(function(m)
+        return not (keys.have and keys:have(lhs, m))
+    end, modes)
+
+    -- do not create the keymap if a lazy keys handler exists
+    if #modes > 0 then
         opts = opts or {}
         opts.silent = opts.silent ~= false
         if opts.remap and not vim.g.vscode then
@@ -25,7 +36,7 @@ end
 ---@param cmd_string string
 ---@param opts string|table
 function M.map_cu(mode, lhs, cmd_string, opts)
-    local cmd = (":<C-u>%s<CR>"):format(cmd_string)
+    local cmd = ("<Cmd>%s<CR>"):format(cmd_string)
     M.map(mode, lhs, cmd, opts)
 end
 
